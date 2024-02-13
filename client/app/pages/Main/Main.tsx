@@ -84,6 +84,17 @@ const Main = () => {
             </Dialog.Panel>
         </Dialog>
       </header>
+      <div className='"relative isolate px-6 pt-14 lg:px-8"'> 
+        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+            <div className='text-center'> 
+                <form>
+                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"> 
+
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
     </div>
   )
 }
