@@ -29,9 +29,15 @@ const Main = () => {
                 </button>
             </div>
             <div className='hidden lg:flex lg:gap-x-12'></div>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                Log in <span aria-hidden="true">&rarr;</span>
+            <div className="hidden lg:gap-x-8 lg:flex lg:flex-1 lg:justify-end">
+                <a href='#' className="text-lg font-semibold leading-6 text-blue-500">
+                    Sign in  
+                </a>
+                <a> 
+                    |
+                </a>
+                <a href='#' className="text-lg font-semibold leading-6 text-gray-900">
+                    Post a Job
                 </a>
             </div>
         </nav>
