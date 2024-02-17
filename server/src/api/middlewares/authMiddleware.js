@@ -1,5 +1,5 @@
 import { JWT_SECRET_KEY } from "../../config/confing.cjs";
-const jwt = require("jsonwebtoken");
+import jwt from 'jsonwebtoken'
 function verifyToken(req , res , next) {
     const token = req.headers['authorization']
 
