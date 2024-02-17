@@ -1,10 +1,20 @@
-import { Entity , PrimaryGeneratedColumn ,Column  } from "typeorm";
+import { Entity , PrimaryGeneratedColumn ,Column, Unique  } from "typeorm";
 
 @Entity() 
 
 export class User{
     @PrimaryGeneratedColumn()
-    id :number ; 
-     
+    id ; 
 
+    @Column() 
+    username ; 
+
+    @Column()
+    email ; 
+
+    @Column()
+    password ; 
+
+    @Column()
+    pdp ; 
 }
