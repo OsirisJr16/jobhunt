@@ -1,24 +1,26 @@
-import  express from "express"
+// server.ts
+import express from "express";
 import { myDataSource } from "./configs/app-data-source";
+import authRouter from "./routes/userRoutes";
 
-const app = express() 
+const app = express();
 
 myDataSource
     .initialize()
     .then(() => {
-        console.log("Connection Succesfull!")
+        console.log("Connection Successful!");
     })
     .catch((err) => {
-        console.error("Connection Error", err)
-    })
+        console.error("Connection Error", err);
+    });
 
-app.use(express.json())
-const port = 4000 ; 
+app.use(express.json());
 
-app.get('/',function(req,res){
-    res.send('Hello World')
-})
+app.use('/auth', authRouter);
 
-app.listen(port , ()=> {
-    console.log(`app running on port ${port}`)
-})
+
+const port = 4000;
+
+app.listen(port, () => {
+    console.log(`App running on port ${port}`);
+});
