@@ -1,8 +1,8 @@
-import { Entity  , Column , PrimaryGeneratedColumn , ManyToOne ,JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
 import { User } from "./user.entity";
+import { Application } from "./application.entity"; // Import the Application entity
 
 @Entity({name : 'jobs'}) 
-
 export class Job{
     @PrimaryGeneratedColumn()
     id !:number ; 
@@ -28,4 +28,7 @@ export class Job{
     @ManyToOne(() => User, user => user.jobs)
     @JoinColumn({ name: "entreprise_id" })
     entreprise!: User;
+
+    @OneToMany(() => Application, application => application.job) 
+    applications!: Application[]; 
 }
