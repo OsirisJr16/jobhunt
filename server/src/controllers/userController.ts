@@ -20,6 +20,7 @@ export const login = async (req: Request, res: Response) => {
             return res.status(401).json({ message: "Invalid email or password." });
         }
 
+        //tokony Crypté ny password raisiny  ; 
         // const isPasswordValid = await bcrypt.compare(password, user.password);
 
         // if (!isPasswordValid) {
