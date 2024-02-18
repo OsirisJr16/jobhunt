@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Job } from "./job.entity"; // Import the Job entity
 
 @Entity({ name: 'users' })
 export class User {
@@ -9,7 +10,6 @@ export class User {
     username!: string;
 
     @Column({ length: 255, unique: true }) 
-    @Unique(['email'])
     email!: string;
 
     @Column({ length: 255 }) 
@@ -20,4 +20,7 @@ export class User {
 
     @Column({ length: 255, nullable: true }) 
     pdp!: string ;
+
+    @OneToMany(() => Job, job => job.entreprise)
+    jobs!: Job[]; 
 }
