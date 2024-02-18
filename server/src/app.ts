@@ -1,6 +1,17 @@
-import express from "express"
+import  express from "express"
+import { myDataSource } from "./configs/app-data-source";
 
 const app = express() 
+
+myDataSource
+    .initialize()
+    .then(() => {
+        console.log("Connection Succesfull!")
+    })
+    .catch((err) => {
+        console.error("Connection Error", err)
+    })
+
 app.use(express.json())
 const port = 4000 ; 
 
