@@ -16,7 +16,7 @@ export const Login = () => {
     try{
         const response = await authService.login(user) ; 
         if(response.token){
-            console.log(response.message)
+            console.log(response)
             setUser({email:'',password:''})
         }
     }catch(error){
