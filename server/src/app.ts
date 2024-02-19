@@ -1,8 +1,8 @@
-// server.ts
+
 import express from "express";
 import { myDataSource } from "./configs/app-data-source";
 import authRouter from "./routes/userRoutes";
-
+import cors from "cors"
 const app = express();
 
 myDataSource
@@ -15,6 +15,9 @@ myDataSource
     });
 
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
 
 app.use('/auth', authRouter);
 

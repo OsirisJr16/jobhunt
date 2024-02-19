@@ -1,7 +1,28 @@
+"use client"
 import React from 'react'
 import Image from 'next/image'
 import logo from '../../assets/images/logo.jpg'
+import { useState } from 'react'
+import authService from '@/app/services/auth'
+
 export const Login = () => {
+  const [user , setUser] = useState({email:"" , password:""})
+  const handleInputChange = (e:any)=> { 
+    const { name, value } = e.target;
+    setUser((prevData) => ({ ...prevData, [name]: value }));
+  }
+  const hanldeLogin = async(e:any)=> {
+    e.preventDefault()
+    try{
+        const response = await authService.login(user) ; 
+        if(response.token){
+            console.log(response.message)
+            setUser({email:'',password:''})
+        }
+    }catch(error){
+        console.error("Login failed : " , error)
+    }
+  }
   return (
     <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -17,13 +38,15 @@ export const Login = () => {
             </h2>
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"> 
-            <form className='space-y-6'>
+            <form onSubmit={hanldeLogin} className='space-y-6'>
                 <div> 
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Email address
                     </label>
                     <div className="mt-2">
                         <input
+                        value={user.email}
+                        onChange={handleInputChange}
                         id="email"
                         name="email"
                         type="email"
@@ -46,6 +69,8 @@ export const Login = () => {
                     </div>
                     <div className="mt-2">
                             <input
+                            value={user.password}
+                            onChange={handleInputChange}
                             id="password"
                             name="password"
                             type="password"
@@ -74,3 +99,5 @@ export const Login = () => {
     </div>
   )
 }
+
+
