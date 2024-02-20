@@ -25,6 +25,9 @@ export const login = async (req: Request, res: Response) => {
         // if (!isPasswordValid) {
         //     return res.status(401).json({ message: "Invalid email or password." });
         // }
+        if(password != user.password){
+            return res.status(401).json({ message: "Invalid email or password." });
+        }
         const token = jwt.sign({ userId: user.id, email: user.email }, String(SECRET_KEY), { expiresIn: "1h" });
 
         res.status(200).json({ message:`Welcome ${user.username}` , token });
