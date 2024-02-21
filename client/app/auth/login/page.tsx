@@ -1,12 +1,13 @@
-"use client"
+'use client'
 import React from 'react'
 import Image from 'next/image'
 import logo from '../../assets/images/logo.jpg'
 import { useState } from 'react'
 import authService from '@/app/services/auth'
 
-export const Login = () => {
+const Login = () => {
   const [user , setUser] = useState({email:"" , password:""})
+  const [error , setErreur] = useState("") ;
   const handleInputChange = (e:any)=> { 
     const { name, value } = e.target;
     setUser((prevData) => ({ ...prevData, [name]: value }));
@@ -101,3 +102,5 @@ export const Login = () => {
 }
 
 
+
+export default Login;
