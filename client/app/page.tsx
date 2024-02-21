@@ -2,14 +2,10 @@
 import React , {useState} from 'react'
 import { Bars3Icon , XMarkIcon } from '@heroicons/react/16/solid'
 import { Dialog } from '@headlessui/react'
-import { useRouter } from 'next/navigation'
+
 import Link from 'next/link'
 const Home = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false) ; 
-  const router = useRouter()
-  const hanldeLoginClick=()=> {
-    router.push('/login?role=student')
-  }
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false) ;  
   return (
     <div className='bg-white'>
       <header className='absolute inset-x-0 top-0 z-50'> 
@@ -36,9 +32,9 @@ const Home = () => {
             </div>
             <div className='hidden lg:flex lg:gap-x-12'></div>
             <div className="hidden lg:gap-x-8 lg:flex lg:flex-1 lg:justify-end">
-                <a href='#' className="text-lg font-semibold leading-6 text-blue-500">
+                <Link href="/auth/login?role=student" className="text-lg font-semibold leading-6 text-blue-500">
                     Sign in  
-                </a>
+                </Link>
                 <a> 
                     |
                 </a>
@@ -72,7 +68,7 @@ const Home = () => {
                     <div className="-my-6 divide-y divide-gray-500/10"> 
                         <div className='py-6'> 
                             <a 
-                            onClick={hanldeLoginClick}
+                            
                             className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-blue-500 hover:bg-gray-50">
                                     Log in
                             </a>
