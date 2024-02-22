@@ -93,10 +93,10 @@ const Home = () => {
           </Dialog>
         </header>
       </div>
-      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div>
-          <p className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200 sm:text-4xl">
-            Didn't find component you were looking for?
+      <div className="relative isolate px-6 pt-40 lg:px-8 place-content-center">
+        <div >
+          <p className="text-center mx-auto max-w-2xl text-3xl font-bold sm:text-4xl">
+            Find the best Online jobs
           </p>
           <form>
             <label className="mx-auto mt-8 relative bg-white min-w-sm max-w-2xl flex flex-col md:flex-row items-center justify-center border py-2 px-2 rounded-2xl gap-2  focus-within:border-gray-300">
@@ -117,6 +117,10 @@ const Home = () => {
               </button>
             </label>
           </form>
+          <p className="text-center max-auto pt-10 font-bold text-lg"> 
+            Recent Searches
+          </p>
+          <hr/>
         </div>
       </div>
     </>
