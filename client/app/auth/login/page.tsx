@@ -4,6 +4,8 @@ import Image from "next/image";
 import logo from "../../assets/images/logo.jpg";
 import { useState } from "react";
 import authService from "@/app/services/auth";
+import Link from "next/link";
+import { getRoleFromUrl } from "@/app/helpers/urlHerlpers";
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
