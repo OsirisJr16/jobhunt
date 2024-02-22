@@ -7,6 +7,7 @@ import Link from 'next/link'
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false) ;  
   return (
+    <>
     <div className='bg-white'>
       <header className='absolute inset-x-0 top-0 z-50'> 
         <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global"> 
@@ -84,6 +85,17 @@ const Home = () => {
         </Dialog>
       </header>
     </div>
+    <div className="relative  lg:px-8">
+        <div className='mx-auto max-w-2xl py-32 sm:py-48 lg:py-56'> 
+            <div className="flex items-center bg-white rounded px-4 py-3">
+                <input type="text" placeholder="Job title..." className=" rounded flex-grow h-16 px-4 py-2 mr-2 text-sm focus:outline-none"/>
+                <input type="text" placeholder="Location" className="rounded h-16 px-4 py-2 mr-2 text-sm focus:outline-none"/>
+                <button className="bg-blue-500 text-white h-16 px-6 py-2 rounded hover:bg-blue-600 focus:outline-none">Find Jobs</button>
+            </div>
+        </div>
+    </div>
+
+    </>
   )
 }
 
