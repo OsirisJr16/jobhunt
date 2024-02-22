@@ -38,17 +38,17 @@ const Home = () => {
             <div className="hidden lg:gap-x-8 lg:flex lg:flex-1 lg:justify-end">
               <Link
                 href="/auth/login?role=student"
-                className="text-lg font-semibold leading-6 text-blue-500"
+                className="text-base font-semibold leading-6 text-blue-500"
               >
                 Sign in
               </Link>
               <a>|</a>
-              <a
-                href="#"
-                className="text-lg font-semibold leading-6 text-gray-900"
-              >
+              <Link
+                href="/auth/login?role=company"
+                className="text-base font-semibold leading-6 text-gray-500"
+              > 
                 Post a Job
-              </a>
+              </Link>
             </div>
           </nav>
           <Dialog
