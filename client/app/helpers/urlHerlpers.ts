@@ -1,9 +1,5 @@
-import { useRouter } from "next/router" ; 
-
-export function getRoleFromUrl() : string | null {
-    const router = useRouter() ; 
-    const { query } = router ; 
-
-    const role  = query.role ? String(query.role) : null ; 
-    return role ; 
+import { useSearchParams } from "next/navigation";
+export function getParams(params: string): string | null {
+  const typeParams = useSearchParams();
+  return typeParams.get(params);
 }

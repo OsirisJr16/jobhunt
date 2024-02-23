@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Dialog } from "@headlessui/react";
-
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <>
       <div className="bg-white">
@@ -46,7 +47,7 @@ const Home = () => {
               <Link
                 href="/auth/login?role=company"
                 className="text-base font-semibold leading-6 text-gray-500"
-              > 
+              >
                 Post a Job
               </Link>
             </div>
@@ -80,12 +81,18 @@ const Home = () => {
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="py-6">
-                    <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-blue-500 hover:bg-gray-50">
+                    <Link
+                      href="/auth/login?role=student"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-blue-500 hover:bg-gray-50"
+                    >
                       Log in
-                    </a>
-                    <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-500 hover:bg-gray-50">
-                      Post a Job
-                    </a>
+                    </Link>
+                    <Link
+                      href="/auth/login?role=company"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-500 hover:bg-gray-50"
+                    >
+                      Post Job
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -94,7 +101,7 @@ const Home = () => {
         </header>
       </div>
       <div className="relative isolate px-6 pt-40 lg:px-8 place-content-center">
-        <div >
+        <div>
           <p className="text-center mx-auto max-w-2xl text-3xl font-bold sm:text-4xl">
             Find the best Online jobs
           </p>
@@ -117,10 +124,10 @@ const Home = () => {
               </button>
             </label>
           </form>
-          <p className="text-center max-auto pt-10 font-bold text-lg"> 
+          <p className="text-center max-auto pt-10 font-bold text-lg">
             Recent Searches
           </p>
-          <hr/>
+          <hr />
         </div>
       </div>
     </>

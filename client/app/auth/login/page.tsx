@@ -1,15 +1,16 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Image from "next/image";
 import logo from "../../assets/images/logo.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import authService from "@/app/services/auth";
 import Link from "next/link";
-import { getRoleFromUrl } from "@/app/helpers/urlHerlpers";
 
+// import { useRouter } from "next/navigation";
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setErreur] = useState("");
+  // console.log(path)
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setUser((prevData) => ({ ...prevData, [name]: value }));
@@ -26,6 +27,7 @@ const Login = () => {
       console.error("Login failed : ", error);
     }
   };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
