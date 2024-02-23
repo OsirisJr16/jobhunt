@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Dialog } from "@headlessui/react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

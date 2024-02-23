@@ -5,12 +5,17 @@ import logo from "../../assets/images/logo.jpg";
 import { useState, useEffect } from "react";
 import authService from "@/app/services/auth";
 import Link from "next/link";
-
-// import { useRouter } from "next/navigation";
+// import { getParams } from "@/app/helpers/urlHerlpers";
+import { useRouter, useSearchParams } from "next/navigation";
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setErreur] = useState("");
-  // console.log(path)
+  const role = useSearchParams().get("role");
+  if (role) {
+    console.log(role);
+  } else {
+    console.log("Role not found");
+  }
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setUser((prevData) => ({ ...prevData, [name]: value }));
@@ -27,7 +32,6 @@ const Login = () => {
       console.error("Login failed : ", error);
     }
   };
-
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
