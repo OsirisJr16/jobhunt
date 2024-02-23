@@ -4,16 +4,21 @@ import Image from "next/image";
 import logo from "../../assets/images/logo.jpg";
 import { useState, useEffect } from "react";
 import authService from "@/app/services/auth";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams ,useRouter } from "next/navigation";
 
 const login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setErreur] = useState("");
+  const router = useRouter() ;
+
   const role = useSearchParams().get("role");
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setUser((prevData) => ({ ...prevData, [name]: value }));
   };
+  const handleRegisterRoute = (role : any) => {
+    router.push(`/auth/register?role=${role}`) ; 
+  }
   const hanldeLogin = async (e: any) => {
     e.preventDefault();
     try {
@@ -113,6 +118,7 @@ const login = () => {
           <a
             href="#"
             className="font-semibold leading-6 text-blue-400 hover:text-blue-500"
+            onClick={() => handleRegisterRoute(role)}
           >
             Sign Up
           </a>
