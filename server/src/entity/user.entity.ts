@@ -22,6 +22,28 @@ export class User {
     @Column({ length: 255, nullable: true }) 
     pdp!: string ;
 
+    // "student" role
+    @Column({ length: 255, nullable: true }) 
+    StudentName?: string;
+
+    @Column({ length: 255, nullable: true }) 
+    StudentSchool?: string;
+
+    @Column({ length: 255, nullable: true }) 
+    StudentAddress?: string;
+
+    @Column({ type: 'text', nullable: true }) 
+    studentDescription?: string;
+    // "company" role
+    @Column({ length: 255, nullable: true }) 
+    companyName?: string;
+
+    @Column({ length: 255, nullable: true }) 
+    companyAddress?: string;
+
+    @Column({ type: 'text', nullable: true }) 
+    companyDescription?: string;
+
     @OneToMany(() => Job, job => job.entreprise)
     jobs!: Job[]; 
 
