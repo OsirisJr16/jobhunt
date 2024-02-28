@@ -1,52 +1,43 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { Job } from "./job.entity";
 import { Application } from "./application.entity";
+import { Student } from "./student.entity";
+import { Company } from "./company.entity";
 
-@Entity({ name: 'users' })
+@Entity({ name: "users" })
 export class User {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column({ length: 255 }) 
-    username!: string;
+  @Column({ length: 255 })
+  username!: string;
 
-    @Column({ length: 255, unique: true }) 
-    email!: string;
+  @Column({ length: 255, unique: true })
+  email!: string;
 
-    @Column({ length: 255 }) 
-    password!: string;
+  @Column({ length: 255 })
+  password!: string;
 
-    @Column({ length: 255 }) 
-    role!: string;
+  @Column({ length: 255 })
+  role!: string;
 
-    @Column({ length: 255, nullable: true }) 
-    pdp!: string ;
+  @Column({ length: 255, nullable: true })
+  pdp!: string;
 
-    // "student" role
-    @Column({ length: 255, nullable: true }) 
-    StudentName?: string;
+  @Column({ length: 255, nullable: true })
+  linkedinLink!: string;
 
-    @Column({ length: 255, nullable: true }) 
-    StudentSchool?: string;
+  @OneToMany(() => Job, (job) => job.entreprise)
+  jobs!: Job[];
 
-    @Column({ length: 255, nullable: true }) 
-    StudentAddress?: string;
+  @OneToMany(() => Application, (application) => application.user)
+  applications!: Application[];
 
-    @Column({ type: 'text', nullable: true }) 
-    studentDescription?: string;
-    // "company" role
-    @Column({ length: 255, nullable: true }) 
-    companyName?: string;
+  @OneToOne(()=> Student , student=>student.user)
+  @JoinColumn()
+  student!: Student
 
-    @Column({ length: 255, nullable: true }) 
-    companyAddress?: string;
-
-    @Column({ type: 'text', nullable: true }) 
-    companyDescription?: string;
-
-    @OneToMany(() => Job, job => job.entreprise)
-    jobs!: Job[]; 
-
-    @OneToMany(() => Application, application => application.user)
-    applications!: Application[];
+  @OneToOne(()=> Company , company=>company.user)
+  @JoinColumn()
+  company!: Company
 }
