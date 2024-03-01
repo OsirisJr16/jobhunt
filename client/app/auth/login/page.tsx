@@ -34,7 +34,7 @@ const login = () => {
   useEffect(() => {
     if (role) {
       console.log("Role: ", role);
-    } else console.log("Role not found");
+    } else {console.log("Role not found");}
   }, []);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

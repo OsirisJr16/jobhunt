@@ -54,3 +54,7 @@ export const profile = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+export const register = (req : Request , res : Response) => { 
+
+}

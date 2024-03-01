@@ -6,13 +6,13 @@ export class Company {
   @PrimaryGeneratedColumn()
   userId!:number
   
-  @Column({ length: 255, nullable: true })
+  @Column({ length: 255})
   companyName?: string;
 
-  @Column({ length: 255, nullable: true })
+  @Column({ length: 255})
   companyAddress?: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text"})
   companyDescription?: string;
 
   @OneToOne(()=> User)
