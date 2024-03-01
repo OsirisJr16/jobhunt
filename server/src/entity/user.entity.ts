@@ -8,10 +8,7 @@ import { Company } from "./company.entity";
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;
-
-  @Column({ length: 255 })
-  username!: string;
-
+  
   @Column({ length: 255, unique: true })
   email!: string;
 
