@@ -5,7 +5,7 @@
 -- Dumped from database version 15.2
 -- Dumped by pg_dump version 15.2
 
--- Started on 2024-02-18 21:20:49
+-- Started on 2024-02-23 22:37:50
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -117,7 +117,14 @@ CREATE TABLE public.users (
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
     role character varying(255) NOT NULL,
-    pdp character varying(255)
+    pdp character varying(255),
+    "companyName" character varying(255),
+    "companyAddress" character varying(255),
+    "companyDescription" text,
+    "StudentName" character varying(255),
+    "StudentSchool" character varying(255),
+    "StudentAddress" character varying(255),
+    "studentDescription" text
 );
 
 
@@ -234,8 +241,9 @@ ALTER TABLE ONLY public.application
     ADD CONSTRAINT "FK_c67a88c0ec9a378c447df6a87ba" FOREIGN KEY (job_id) REFERENCES public.jobs(id);
 
 
--- Completed on 2024-02-18 21:20:49
+-- Completed on 2024-02-23 22:37:51
 
 --
 -- PostgreSQL database dump complete
 --
+
