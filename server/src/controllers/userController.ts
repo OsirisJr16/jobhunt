@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository, getConnectionManager } from "typeorm";
+
 import { User } from "../entity/user.entity";
 import { Company } from "../entity/company.entity";
 import bcrypt from "bcrypt";
@@ -56,38 +56,38 @@ export const profile = async (req: Request, res: Response) => {
   }
 };
 
-export const registerCompany = async (req : Request , res : Response) => { 
-  try{
+export const registerCompany = async (req: Request, res: Response) => {
+  try {
+    const userRepository = myDataSource.getRepository(User);
+    const companyRepository = myDataSource.getRepository(Company);
 
-    const userRepository = myDataSource.getRepository(User)  ;
-    const companyRepository = myDataSource.getRepository(Company) ;
+    const { email, password, companyName, companyAddress, companyDescription } =
+      req.body;
 
-    const {email , password , companyName , companyAddress , companyDescription} = req.body; 
+    const existingEmail = await userRepository.findOne({ where: { email } });
 
-    const existingEmail = await userRepository.findOne({where : {email}}) ; 
-
-    if(existingEmail){
-      res.status(400).json({error : "Email already exists."}) ; 
+    if (existingEmail) {
+      res.status(400).json({ error: "Email already exists." });
     }
     //USER INFO
-    const user = new User() ; 
-    user.email = email ; 
-    user.password = password ; 
-    user.role = "company" ; 
+    const user = new User();
+    user.email = email;
+    user.password = password;
+    user.role = "company";
 
-    await userRepository.save(user) ; 
+    await userRepository.save(user);
     //COMPANY INFO
-    const company = new Company() ; 
-    company.companyName = companyName ; 
-    company.companyAddress = companyAddress ; 
-    company.companyDescription = companyDescription ; 
-    company.user = user ;
+    const company = new Company();
+    company.companyName = companyName;
+    company.companyAddress = companyAddress;
+    company.companyDescription = companyDescription;
+    company.user = user;
 
-    await companyRepository.save(company) ;
-    
-    res.status(201).json({message : "User registered Successfully"})
-  }catch(err){
-    console.log(err)
-    res.status(500).json({error : "Error registering User (role company)"})
+    await companyRepository.save(company);
+
+    res.status(201).json({ message: "User registered Successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Error registering User (role company)" });
   }
-}
+};
