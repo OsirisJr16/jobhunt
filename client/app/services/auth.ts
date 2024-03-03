@@ -17,8 +17,20 @@ const login = async (user: any) => {
   }
 };
 
+const registerCompany = async (user:any) => {
+  try {
+    if (user.email && user.password && user.companyName && user.companyAddress && user.companyDescription){
+      const response = await axios.post(`${authUrl}/registerCompany` , user) ; 
+      return response.data
+    }
+  } catch (error :any) {
+    console.error("Failed :" , error) 
+    throw error ;
+  }
+}
 const authService = {
   login,
+  registerCompany
 };
 
 export default authService;
