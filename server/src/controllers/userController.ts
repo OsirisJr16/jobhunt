@@ -55,39 +55,41 @@ export const profile = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-
 export const registerCompany = async (req: Request, res: Response) => {
   try {
     const userRepository = myDataSource.getRepository(User);
     const companyRepository = myDataSource.getRepository(Company);
 
-    const { email, password, companyName, companyAddress, companyDescription } =
-      req.body;
+    const { email, password, companyName, companyAddress, companyDescription } = req.body;
 
     const existingEmail = await userRepository.findOne({ where: { email } });
 
     if (existingEmail) {
-      res.status(400).json({ error: "Email already exists." });
+      return res.status(400).json({ error: "Email already exists." });
     }
-    //USER INFO
+
+
     const user = new User();
     user.email = email;
     user.password = password;
     user.role = "company";
 
+
     await userRepository.save(user);
-    //COMPANY INFO
+
+    
     const company = new Company();
     company.companyName = companyName;
     company.companyAddress = companyAddress;
     company.companyDescription = companyDescription;
-    company.user = user;
+    company.user = user; 
 
+    // Save the company
     await companyRepository.save(company);
 
-    res.status(201).json({ message: "User registered Successfully" });
+    res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Error registering User (role company)" });
+    res.status(500).json({ error: "Error registering user (role company)" });
   }
 };
