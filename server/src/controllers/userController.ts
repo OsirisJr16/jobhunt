@@ -68,26 +68,22 @@ export const registerCompany = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Email already exists." });
     }
 
-
     const user = new User();
     user.email = email;
     user.password = password;
     user.role = "company";
 
+    const newUser = await userRepository.save(user);
 
-    await userRepository.save(user);
-
-    
     const company = new Company();
     company.companyName = companyName;
     company.companyAddress = companyAddress;
     company.companyDescription = companyDescription;
-    company.user = user; 
+    company.user = newUser;
 
-    // Save the company
     await companyRepository.save(company);
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully", user: newUser });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Error registering user (role company)" });

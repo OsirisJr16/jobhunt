@@ -30,11 +30,11 @@ export class User {
   @OneToMany(() => Application, (application) => application.user)
   applications!: Application[];
 
-  @OneToOne(()=> Student , student=>student.user , {cascade : true})
-  @JoinColumn()
-  student!: Student
+  // @OneToOne(() => Student, student => student.user, { cascade: true, nullable: true })
+  // @JoinColumn()
+  // student?: Student;
 
-  @OneToOne(()=> Company , company=>company.user , { cascade: true })
-  @JoinColumn()
-  company!: Company
+  // @OneToOne(() => Company, company => company.user, { cascade: true, nullable: true })
+  // @JoinColumn()
+  // company?: Company;
 }
