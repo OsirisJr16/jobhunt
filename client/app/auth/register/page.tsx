@@ -196,9 +196,10 @@ const CompanyRegister = () => {
           )}
           {success && ( 
             <div> 
-              <p>Account created successfully{'  '}
+              <p className="mt-10 text-center text-gray-900">Account created successfully{'  '}
               <a 
               className="font-semibold leading-6 text-blue-400 hover:text-blue-500"
+              style={{cursor:"pointer"}}
               onClick={()=>handleRoute(role)}
               >
                 sign in
