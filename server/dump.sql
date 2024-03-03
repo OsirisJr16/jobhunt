@@ -5,7 +5,7 @@
 -- Dumped from database version 15.2
 -- Dumped by pg_dump version 15.2
 
--- Started on 2024-03-02 21:24:25
+-- Started on 2024-03-03 22:58:20
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,7 +23,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 216 (class 1259 OID 58173)
+-- TOC entry 214 (class 1259 OID 66495)
 -- Name: application; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -31,20 +31,21 @@ CREATE TABLE public.application (
     id integer NOT NULL,
     cover_letter text NOT NULL,
     application_date timestamp without time zone NOT NULL,
+    resume text NOT NULL,
     job_id integer,
-    user_id integer,
-    resume text NOT NULL
+    user_id integer
 );
 
 
 ALTER TABLE public.application OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 66360)
+-- TOC entry 219 (class 1259 OID 66510)
 -- Name: application_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.application_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -55,8 +56,8 @@ CREATE SEQUENCE public.application_id_seq
 ALTER TABLE public.application_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3368 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 3362 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: application_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -64,22 +65,22 @@ ALTER SEQUENCE public.application_id_seq OWNED BY public.application.id;
 
 
 --
--- TOC entry 221 (class 1259 OID 66382)
+-- TOC entry 215 (class 1259 OID 66498)
 -- Name: companies; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.companies (
+    "userId" integer NOT NULL,
     "companyName" character varying(255) NOT NULL,
     "companyAddress" character varying(255) NOT NULL,
-    "companyDescription" text NOT NULL,
-    "userId" integer NOT NULL
+    "companyDescription" text NOT NULL
 );
 
 
 ALTER TABLE public.companies OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 66420)
+-- TOC entry 222 (class 1259 OID 66537)
 -- Name: companies_userId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -95,7 +96,7 @@ CREATE SEQUENCE public."companies_userId_seq"
 ALTER TABLE public."companies_userId_seq" OWNER TO postgres;
 
 --
--- TOC entry 3369 (class 0 OID 0)
+-- TOC entry 3363 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: companies_userId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -104,17 +105,17 @@ ALTER SEQUENCE public."companies_userId_seq" OWNED BY public.companies."userId";
 
 
 --
--- TOC entry 215 (class 1259 OID 58161)
+-- TOC entry 216 (class 1259 OID 66501)
 -- Name: jobs; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.jobs (
     id integer NOT NULL,
     title character varying(255) NOT NULL,
+    descirption text NOT NULL,
     company character varying(255) NOT NULL,
     requirements text NOT NULL,
     salary integer NOT NULL,
-    descirption text NOT NULL,
     date_post timestamp without time zone NOT NULL,
     entreprise_id integer
 );
@@ -123,11 +124,12 @@ CREATE TABLE public.jobs (
 ALTER TABLE public.jobs OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 66362)
+-- TOC entry 220 (class 1259 OID 66519)
 -- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.jobs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -138,8 +140,8 @@ CREATE SEQUENCE public.jobs_id_seq
 ALTER TABLE public.jobs_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3370 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3364 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -147,23 +149,23 @@ ALTER SEQUENCE public.jobs_id_seq OWNED BY public.jobs.id;
 
 
 --
--- TOC entry 220 (class 1259 OID 66379)
+-- TOC entry 217 (class 1259 OID 66504)
 -- Name: students; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.students (
+    "userId" integer NOT NULL,
     "StudentName" character varying(255),
     "StudentSchool" character varying(255),
     "StudentAddress" character varying(255),
-    "studentDescription" text,
-    "userId" integer NOT NULL
+    "studentDescription" text
 );
 
 
 ALTER TABLE public.students OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 66433)
+-- TOC entry 221 (class 1259 OID 66528)
 -- Name: students_userId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -179,8 +181,8 @@ CREATE SEQUENCE public."students_userId_seq"
 ALTER TABLE public."students_userId_seq" OWNER TO postgres;
 
 --
--- TOC entry 3371 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 3365 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: students_userId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -188,7 +190,7 @@ ALTER SEQUENCE public."students_userId_seq" OWNED BY public.students."userId";
 
 
 --
--- TOC entry 214 (class 1259 OID 58154)
+-- TOC entry 218 (class 1259 OID 66507)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -198,20 +200,19 @@ CREATE TABLE public.users (
     password character varying(255) NOT NULL,
     role character varying(255) NOT NULL,
     pdp character varying(255),
-    "linkedinLink" character varying(255),
-    "studentUserId" integer,
-    "companyUserId" integer
+    "linkedinLink" character varying(255)
 );
 
 
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 66354)
+-- TOC entry 223 (class 1259 OID 66546)
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.users_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -222,8 +223,8 @@ CREATE SEQUENCE public.users_id_seq
 ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3372 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 3366 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -231,7 +232,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- TOC entry 3195 (class 2604 OID 66361)
+-- TOC entry 3193 (class 2604 OID 66511)
 -- Name: application id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -239,7 +240,7 @@ ALTER TABLE ONLY public.application ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 3197 (class 2604 OID 66421)
+-- TOC entry 3194 (class 2604 OID 66538)
 -- Name: companies userId; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -247,7 +248,7 @@ ALTER TABLE ONLY public.companies ALTER COLUMN "userId" SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 3194 (class 2604 OID 66363)
+-- TOC entry 3195 (class 2604 OID 66520)
 -- Name: jobs id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -255,7 +256,7 @@ ALTER TABLE ONLY public.jobs ALTER COLUMN id SET DEFAULT nextval('public.jobs_id
 
 
 --
--- TOC entry 3196 (class 2604 OID 66434)
+-- TOC entry 3196 (class 2604 OID 66529)
 -- Name: students userId; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -263,7 +264,7 @@ ALTER TABLE ONLY public.students ALTER COLUMN "userId" SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3193 (class 2604 OID 66355)
+-- TOC entry 3197 (class 2604 OID 66547)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -271,7 +272,16 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 3213 (class 2606 OID 66428)
+-- TOC entry 3199 (class 2606 OID 66516)
+-- Name: application PK_569e0c3e863ebdf5f2408ee1670; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.application
+    ADD CONSTRAINT "PK_569e0c3e863ebdf5f2408ee1670" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3201 (class 2606 OID 66543)
 -- Name: companies PK_6d64e8c7527a9e4af83cc66cbf7; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -280,7 +290,25 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- TOC entry 3211 (class 2606 OID 66441)
+-- TOC entry 3207 (class 2606 OID 66552)
+-- Name: users PK_a3ffb1c0c8416b9fc6f907b7433; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3203 (class 2606 OID 66525)
+-- Name: jobs PK_cf0a6c42b72fcc7f7c237def345; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.jobs
+    ADD CONSTRAINT "PK_cf0a6c42b72fcc7f7c237def345" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3205 (class 2606 OID 66534)
 -- Name: students PK_e0208b4f964e609959aff431bf9; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -289,16 +317,7 @@ ALTER TABLE ONLY public.students
 
 
 --
--- TOC entry 3199 (class 2606 OID 66445)
--- Name: users UQ_3008019cd8d3f80940649324382; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT "UQ_3008019cd8d3f80940649324382" UNIQUE ("companyUserId");
-
-
---
--- TOC entry 3201 (class 2606 OID 66357)
+-- TOC entry 3209 (class 2606 OID 66554)
 -- Name: users UQ_97672ac88f789774dd47f7c8be3; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -307,52 +326,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3203 (class 2606 OID 66443)
--- Name: users UQ_ed1aee7a7682ca10116657e99df; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT "UQ_ed1aee7a7682ca10116657e99df" UNIQUE ("studentUserId");
-
-
---
--- TOC entry 3209 (class 2606 OID 66359)
--- Name: application application_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.application
-    ADD CONSTRAINT application_pkey PRIMARY KEY (id) INCLUDE (id);
-
-
---
--- TOC entry 3207 (class 2606 OID 58165)
--- Name: jobs jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.jobs
-    ADD CONSTRAINT jobs_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3205 (class 2606 OID 58160)
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 3214 (class 2606 OID 66461)
--- Name: users FK_3008019cd8d3f80940649324382; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT "FK_3008019cd8d3f80940649324382" FOREIGN KEY ("companyUserId") REFERENCES public.companies("userId");
-
-
---
--- TOC entry 3217 (class 2606 OID 66369)
+-- TOC entry 3210 (class 2606 OID 66566)
 -- Name: application FK_42f0935cc814e694ed0e61fdece; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -361,7 +335,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3220 (class 2606 OID 66451)
+-- TOC entry 3212 (class 2606 OID 66581)
 -- Name: companies FK_6d64e8c7527a9e4af83cc66cbf7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -370,7 +344,7 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- TOC entry 3216 (class 2606 OID 66374)
+-- TOC entry 3213 (class 2606 OID 66571)
 -- Name: jobs FK_8003e2d4c5d251ad97832eeea09; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -379,7 +353,7 @@ ALTER TABLE ONLY public.jobs
 
 
 --
--- TOC entry 3218 (class 2606 OID 66364)
+-- TOC entry 3211 (class 2606 OID 66561)
 -- Name: application FK_c67a88c0ec9a378c447df6a87ba; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -388,7 +362,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3219 (class 2606 OID 66446)
+-- TOC entry 3214 (class 2606 OID 66576)
 -- Name: students FK_e0208b4f964e609959aff431bf9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -396,17 +370,17 @@ ALTER TABLE ONLY public.students
     ADD CONSTRAINT "FK_e0208b4f964e609959aff431bf9" FOREIGN KEY ("userId") REFERENCES public.users(id);
 
 
---
--- TOC entry 3215 (class 2606 OID 66456)
--- Name: users FK_ed1aee7a7682ca10116657e99df; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT "FK_ed1aee7a7682ca10116657e99df" FOREIGN KEY ("studentUserId") REFERENCES public.students("userId");
-
-
--- Completed on 2024-03-02 21:24:25
+-- Completed on 2024-03-03 22:58:20
 
 --
 -- PostgreSQL database dump complete
 --
+
+
+INSERT INTO public.companies ("userId", "companyName", "companyAddress", "companyDescription") VALUES (1, 'My company', 'Fianarantsoa', 'My Company  offre des solutions de marketing digital sur mesure, propulsant votre entreprise vers le succès en ligne. Avec une équipe d''experts dévoués, nous maximisons votre visibilité et vos conversions pour vous aider à atteindre de nouveaux sommets.');
+INSERT INTO public.companies ("userId", "companyName", "companyAddress", "companyDescription") VALUES (2, 'Mianava', 'Toamasina', 'Mianava offre des solutions de marketing digital sur mesure, propulsant votre entreprise vers le succès en ligne. Avec une équipe d''experts dévoués, nous maximisons votre visibilité et vos conversions pour vous aider à atteindre de nouveaux sommets.');
+
+
+INSERT INTO public.users (id, email, password, role, pdp, "linkedinLink") VALUES (1, 'mycompany@gmail.com', 'comapny', 'company', NULL, NULL);
+INSERT INTO public.users (id, email, password, role, pdp, "linkedinLink") VALUES (2, 'Mianava@gmail.com', 'Mianava', 'company', NULL, NULL);
+
