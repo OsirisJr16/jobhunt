@@ -194,16 +194,17 @@ const CompanyRegister = () => {
               <p className="mt-10 text-center text-sm text-red-600">{error}</p>
             </div>
           )}
-          {success && ( 
-            <div> 
-              <p className="mt-10 text-center text-gray-900">Account created successfully{'  '}
-              <a 
-              className="font-semibold leading-6 text-blue-400 hover:text-blue-500"
-              style={{cursor:"pointer"}}
-              onClick={()=>handleRoute(role)}
-              >
-                sign in
-              </a>
+          {success && (
+            <div>
+              <p className="mt-10 text-center text-gray-900">
+                Account created successfully{"  "}
+                <a
+                  className="font-semibold leading-6 text-blue-400 hover:text-blue-500"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleRoute(role)}
+                >
+                  sign in
+                </a>
               </p>
             </div>
           )}
@@ -211,7 +212,7 @@ const CompanyRegister = () => {
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-blue-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              disabled={!isFormValid()} 
+              disabled={!isFormValid()}
             >
               Sign Up
             </button>

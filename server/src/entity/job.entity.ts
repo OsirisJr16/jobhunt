@@ -11,9 +11,9 @@ export class Job{
     title !: string ;
 
     @Column({type:'text'})
-    descirption !: string ; 
+    description !: string ; 
 
-    @Column({length : 255}) 
+    @Column({length : 255 , nullable: true}) 
     company !:string ; 
 
     @Column({type:'text'})
