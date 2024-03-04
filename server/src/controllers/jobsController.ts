@@ -10,7 +10,7 @@ export const newJob = async (req: Request, res: Response) => {
     const jobRepository = myDataSource.getRepository(Job);
     const userRepository = myDataSource.getRepository(User);
 
-    // CHANGE MIDDLE to const companuId = req.user.id (MIDDLEWARES)
+    // CHANGE  to const companyId = req.user.id (MIDDLEWARES)
     const { title, description, requirements, salary, date_post, companyId } =
       req.body;
     const company = await userRepository.findOne(companyId);
@@ -32,5 +32,23 @@ export const newJob = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Error newJobs" });
+  }
+};
+export const deleteJob = async (req: Request, res: Response) => {
+  try {
+    const jobId = parseInt(req.params.id);
+    const jobRepository = myDataSource.getRepository(Job);
+
+    const job = await jobRepository.findOne({ where: { id: jobId } });
+    if (!job) {
+      return res.status(404).json({ error: "Job not found" });
+    }
+
+    await jobRepository.delete(jobId);
+
+    res.status(200).json({ message: "Job deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
