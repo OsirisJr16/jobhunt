@@ -1,15 +1,19 @@
 import React from "react";
 
-const Navbar = () => {
+interface NavbarProps {
+  onItemClick : Function; 
+}
+
+const Navbar :React.FC<NavbarProps> = ({onItemClick}) => {
   const _navigation = [
     { name: "Dashboard", current: true, href: "#" },
     { name: "Jobs", current: false, href: "#" },
     { name: "Application", current: false, href: "#" },
     { name: "profile", current: false, href: "#" },
   ];
-  const companyName = "My Company"
+  const companyName = "My Company";
   return (
-    <div >
+    <div>
       <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -57,9 +61,11 @@ const Navbar = () => {
               {_navigation.map((item) => (
                 <li>
                   <a
-                    key={item.name}
-                    className="block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 text-lg"
-                    style={{ cursor: "pointer" }}
+                    href={item.href}
+                    className={`block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 text-lg ${
+                      item.current ? "font-bold" : ""
+                    }`}
+                    onClick={() => onItemClick(item.name)}
                   >
                     {item.name}
                   </a>
