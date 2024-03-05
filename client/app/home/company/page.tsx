@@ -1,11 +1,12 @@
-import React from 'react'
-
+import React from "react";
+import Navbar from "./Navbar";
 const Company = () => {
   return (
-    <div>
-      Welcome Company
-    </div>
-  )
-}
+    <>
+      <Navbar/>
+      <div>Welcome Company</div>
+    </>
+  );
+};
 
-export default Company
+export default Company;
