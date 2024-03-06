@@ -1,5 +1,5 @@
 import React from "react";
-
+import ButtonPrimary from "@/app/components/ButtonPrimary";
 interface NavbarProps {
   onItemClick: (name: string) => void;
   currentPage: string;
@@ -23,12 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ onItemClick, currentPage }) => {
           </span>
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 text-center"
-          >
-            Sign Out
-          </button>
+          <ButtonPrimary text="Sign Out"/>
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
@@ -62,7 +57,7 @@ const Navbar: React.FC<NavbarProps> = ({ onItemClick, currentPage }) => {
             {_navigation.map((item) => (
               <li key={item.name}>
                 <a
-                  href={item.href}
+                  style={{ cursor: "pointer" }}
                   className={`block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 text-lg ${
                     currentPage === item.name ? "font-bold" : ""
                   }`}

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import { useRouter } from "next/navigation";
+import Jobs from "./Jobs";
 
 const Company = () => {
   const [currentPage, setCurrentPage] = useState<
@@ -10,7 +11,7 @@ const Company = () => {
   const router = useRouter() ; 
   const navItemContent: Record<string, JSX.Element> = {
     Dashboard: <div>Content for Dashboard</div>,
-    Jobs: <div>Content for Jobs</div>,
+    Jobs: <div><Jobs/></div>,
     Application: <div>Content for Application</div>,
     Profile: <div>Content for profile</div>,
   };
