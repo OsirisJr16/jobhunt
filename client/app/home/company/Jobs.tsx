@@ -1,6 +1,32 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import ButtonPrimary from "@/app/components/ButtonPrimary";
+import jobsService from "@/app/services/jobs";
+import { Job } from "@/app/interface/jobs.interface";
+
 const Jobs = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const companyId = localStorage.getItem("userId")
+    ? parseInt(localStorage.getItem("userId") || "")
+    : undefined;
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        if (companyId) {
+          const fetchedJobs = await jobsService.getJobsByCompany(companyId);
+          if (Array.isArray(fetchedJobs)) {
+            setJobs(fetchedJobs);
+          } else {
+            console.error("error", fetchedJobs);
+          }
+        }
+      } catch (err) {
+        console.error("error:", err);
+      }
+    }
+    fetchJobs();
+  }, [companyId]);
+
   return (
     <>
       <nav className="bg-white w-full z-20 top-0 start-0">
@@ -54,7 +80,7 @@ const Jobs = () => {
                 Title
               </th>
               <th scope="col" className="px-6 py-3">
-                Descprition
+                Description
               </th>
               <th scope="col" className="px-6 py-3">
                 Requirements
@@ -71,35 +97,32 @@ const Jobs = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b hover:bg-gray-50">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              >
-                Developper Bi
-              </th>
-              <th className="px-6 py-4">
-                Lorem ipsum dolor sit amet consectetur,
-              </th>
-              <th className="px-6 py-4">3ans d'EXP</th>
-              <th className="px-6 py-4">4000$</th>
-              <th className="px-6 py-4">08/03/2024</th>
-              <td className="px-6 py-4">
-                <a
-                  style={{ cursor: "pointer" }}
-                  className="font-medium text-blue-600 hover:underline"
-                >
-                  Edit
-                </a>
-                <span className="text-white">{"---"}</span>
-                <a
-                  style={{ cursor: "pointer" }}
-                  className="font-medium text-red-600 hover:underline"
-                >
-                  Delete
-                </a>
-              </td>
-            </tr>
+            {jobs.map((job) => (
+              <tr key={job.id} className="bg-white border-b hover:bg-gray-50">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {job.title}
+                </td>
+                <td className="px-6 py-4">{job.description.length > 20 ? `${job.description.slice(0, 20)}...` : job.description}</td>
+                <td className="px-6 py-4">{job.requirements}</td>
+                <td className="px-6 py-4">{job.salary}</td>
+                <td className="px-6 py-4">{job.date_post.toString()}</td>
+                <td className="px-6 py-4">
+                  <a
+                    style={{ cursor: "pointer" }}
+                    className="font-medium text-blue-600 hover:underline"
+                  >
+                    Edit
+                  </a>
+                  <span className="text-white">{"---"}</span>
+                  <a
+                    style={{ cursor: "pointer" }}
+                    className="font-medium text-red-600 hover:underline"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
