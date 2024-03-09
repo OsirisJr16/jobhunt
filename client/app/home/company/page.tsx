@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 import { useRouter } from "next/navigation";
 import Jobs from "./Jobs";
+import Profile from "./Profile";
 
 const Company = () => {
   const [currentPage, setCurrentPage] = useState<
@@ -13,7 +14,7 @@ const Company = () => {
     Dashboard: <div>Content for Dashboard</div>,
     Jobs: <div><Jobs/></div>,
     Application: <div>Content for Application</div>,
-    Profile: <div>Content for profile</div>,
+    Profile: <div><Profile/></div>,
   };
 
   const hanldeItemClick = (name: string) => {
