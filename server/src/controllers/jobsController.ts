@@ -5,6 +5,19 @@ import { myDataSource } from "../configs/app-data-source";
 
 require("dotenv").config();
 
+export const getJobsByCompany = async(req:Request , res:Response) => {
+
+    try {
+      const {companyId} = req.params
+      const jobRepository = myDataSource.getRepository(Job) ;
+      const jobs = await jobRepository.find({where : {entreprise:companyId as unknown as User}}) ;
+      console.log('Success')
+      res.json({jobs}) ;
+    }catch(err){
+      console.log(err)
+      res.status(500).json({success:false,message:'Internal server error'})
+    }
+}
 export const newJob = async (req: Request, res: Response) => {
   try {
     const jobRepository = myDataSource.getRepository(Job);

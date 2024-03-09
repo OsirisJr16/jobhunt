@@ -13,9 +13,6 @@ export class Job{
     @Column({type:'text'})
     description !: string ; 
 
-    // @Column({length : 255 , nullable: true}) 
-    // company !:string ; 
-
     @Column({type:'text'})
     requirements !: string ; 
 

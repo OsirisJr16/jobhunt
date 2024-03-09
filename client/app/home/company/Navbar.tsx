@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import ButtonPrimary from "@/app/components/ButtonPrimary";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 interface NavbarProps {
   onItemClick: (name: string) => void;
   currentPage: string;
@@ -13,15 +13,14 @@ const Navbar: React.FC<NavbarProps> = ({ onItemClick, currentPage }) => {
     { name: "Application", href: "#/application" },
     { name: "Profile", href: "#/profile" },
   ];
-  const router = useRouter() ;
+  const router = useRouter();
   const companyName = "My Company";
-  const logOut =()=> {
+  const logOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("role");
     router.push("/");
-
-  }
+  };
   return (
     <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -31,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ onItemClick, currentPage }) => {
           </span>
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <ButtonPrimary onClick={logOut} text="Sign Out"/>
+          <ButtonPrimary onClick={logOut} text="Sign Out" />
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"

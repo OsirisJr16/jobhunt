@@ -11,7 +11,10 @@ const Jobs = () => {
             </span>
           </p>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <ButtonPrimary onClick={()=>console.log("it Works")} text="Post a Job" />
+            <ButtonPrimary
+              onClick={() => console.log("it Works")}
+              text="Post a Job"
+            />
           </div>
         </div>
       </nav>
@@ -64,7 +67,7 @@ const Jobs = () => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Action
-              </th> 
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -82,9 +85,19 @@ const Jobs = () => {
               <th className="px-6 py-4">4000$</th>
               <th className="px-6 py-4">08/03/2024</th>
               <td className="px-6 py-4">
-                    <a style={{cursor:'pointer'}} className="font-medium text-blue-600 hover:underline">Edit</a>
-                    <span className="text-white">{"---"}</span>
-                    <a style={{cursor:'pointer'}} className="font-medium text-red-600 hover:underline">Delete</a>
+                <a
+                  style={{ cursor: "pointer" }}
+                  className="font-medium text-blue-600 hover:underline"
+                >
+                  Edit
+                </a>
+                <span className="text-white">{"---"}</span>
+                <a
+                  style={{ cursor: "pointer" }}
+                  className="font-medium text-red-600 hover:underline"
+                >
+                  Delete
+                </a>
               </td>
             </tr>
           </tbody>
