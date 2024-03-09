@@ -15,7 +15,7 @@ export const newJob = async (req: Request, res: Response) => {
       req.body;
     const company = await userRepository.findOne({ where: { id: companyId } });
     if (!company || company.role !== "company") {
-      return res.status(401).json({ error: "UNAUTHORIZED" });
+      return res.status(401).json({ error: "UNAUTHORIZED - User Not Found" });
     }
     const newJob = new Job();
 

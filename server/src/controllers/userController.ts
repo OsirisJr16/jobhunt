@@ -32,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ message: `Welcome ${user.email}`, token });
+    res.status(200).json({ message: `Welcome ${user.email}`, token ,userId:user.id,role:user.role});
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Internal server error." });

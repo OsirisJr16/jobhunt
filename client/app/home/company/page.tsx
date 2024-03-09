@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState ,Suspense} from "react";
 import Navbar from "./Navbar";
 import { useRouter } from "next/navigation";
 import Jobs from "./Jobs";
