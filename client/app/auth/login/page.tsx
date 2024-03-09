@@ -26,6 +26,11 @@ const login = () => {
       if (response.token) {
         console.log(response);
         setUser({ email: "", password: "" });
+        if(response.role === "company"){
+          router.push(`/home/company`)
+        }else{
+          router.push(`/home/student`)
+        }
       }
     } catch (error) {
       console.error("Login failed : ", error);
