@@ -13,7 +13,7 @@ export const newJob = async (req: Request, res: Response) => {
     // CHANGE  to const companyId = req.user.id (MIDDLEWARES)
     const { title, description, requirements, salary, date_post, companyId } =
       req.body;
-    const company = await userRepository.findOne(companyId);
+    const company = await userRepository.findOne({ where: { id: companyId } });
     if (!company || company.role !== "company") {
       return res.status(401).json({ error: "UNAUTHORIZED" });
     }
