@@ -98,11 +98,19 @@ const Jobs = () => {
           </thead>
           <tbody>
             {jobs.map((job) => (
-              <tr key={job.id} className="bg-white border-b hover:bg-gray-50">
+              <tr
+                style={{ cursor: "pointer" }}
+                key={job.id}
+                className="bg-white border-b hover:bg-gray-50"
+              >
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                   {job.title}
                 </td>
-                <td className="px-6 py-4">{job.description.length > 20 ? `${job.description.slice(0, 20)}...` : job.description}</td>
+                <td className="px-6 py-4">
+                  {job.description.length > 20
+                    ? `${job.description.slice(0, 20)}...`
+                    : job.description}
+                </td>
                 <td className="px-6 py-4">{job.requirements}</td>
                 <td className="px-6 py-4">{job.salary}</td>
                 <td className="px-6 py-4">{job.date_post.toString()}</td>
