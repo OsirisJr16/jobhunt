@@ -1,11 +1,39 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Children, FC, use, useEffect, useState } from "react";
 import ButtonPrimary from "@/app/components/ButtonPrimary";
 import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
+import { Transition,Dialog } from "@headlessui/react";
+import { Suspense } from "react";
+
+interface modalProps {
+    isVisible : boolean ;
+    onClose : ()=>void;
+    children?:React.ReactNode;
+}
+const Modal :React.FC<modalProps> = ({isVisible , onClose , children})=> {
+  if (!isVisible) return null ;
+  return ( 
+    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"> 
+      <div className="w-[600px] flex flex-col"> 
+        <button className="text-white text-xl place-self-end" onClick={onClose}>X</button>
+        <div className="bg-white p-2 rounded">  
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  function closeModal() {
+    setIsOpen(false);
+  }
+  function openModal() {
+    setIsOpen(true);
+  }
   const companyId = localStorage.getItem("userId")
     ? parseInt(localStorage.getItem("userId") || "")
     : undefined;
@@ -37,11 +65,9 @@ const Jobs = () => {
             </span>
           </p>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <ButtonPrimary
-              onClick={() => console.log("it Works")}
-              text="Post a Job"
-            />
+            <ButtonPrimary onClick={openModal} text="Post a Job" />
           </div>
+          
         </div>
       </nav>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -73,6 +99,7 @@ const Jobs = () => {
             ></input>
           </div>
         </div>
+        
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -134,6 +161,7 @@ const Jobs = () => {
           </tbody>
         </table>
       </div>
+      <Modal isVisible={isOpen} onClose={closeModal}/>
     </>
   );
 };
