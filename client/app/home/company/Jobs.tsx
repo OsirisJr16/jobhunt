@@ -3,8 +3,6 @@ import React, { Children, FC, use, useEffect, useState } from "react";
 import ButtonPrimary from "@/app/components/ButtonPrimary";
 import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
-import { Transition, Dialog } from "@headlessui/react";
-import { Suspense } from "react";
 
 interface modalProps {
   isVisible: boolean;
@@ -17,6 +15,22 @@ interface setp1Props {
 interface step2Props {
   onPrevious: () => void;
 }
+interface toggleButton {
+  label: string;
+}
+const ToggleButton: React.FC<toggleButton> = ({ label }) => {
+  return (
+    <label className="flex items-center space-x-2 cursor-pointer">
+      <span className="rounded-full border border-gray-300 px-3 py-1 text-sm">
+        <input
+          type="checkbox"
+          className="form-checkbox rounded-full text-blue-500 border-gray-300 focus:ring-blue-500"
+        />{" "}
+        {label}
+      </span>
+    </label>
+  );
+};
 const Step1: React.FC<setp1Props> = ({ onNext }) => {
   return (
     <>
@@ -24,7 +38,74 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
         <h3 className="text-xl font-semibold text-gray-900 mb-5">
           Publish a job
         </h3>
-        <ButtonPrimary text="next" onClick={onNext}/>
+        <form className="space-y-6">
+          <div className="mb-5">
+            <label
+              htmlFor="job"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Job Title
+            </label>
+            <input
+              type="text"
+              id="job"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-inset focus:ring-indigo-600 block w-full p-2.5"
+              placeholder="developer fullstack"
+              required
+            />
+          </div>
+          <div className="col-span-full">
+            <label
+              htmlFor="about"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              About
+            </label>
+            <div className="mt-2">
+              <textarea
+                id="about"
+                name="about"
+                rows={3}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                defaultValue={""}
+                required
+              />
+            </div>
+            <p className="mt-3 text-sm leading-6 text-gray-600">
+              Write a few sentences about the job.
+            </p>
+          </div>
+          <div className="mb-5">
+            <label
+              htmlFor="salary"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Salary
+            </label>
+            <input
+              type="number"
+              id="salary"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-inset focus:ring-indigo-600 block w-full p-2.5"
+              placeholder="4000$"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium leading-6 text-gray-900">
+              Experiences
+            </label>
+            <ToggleButton label="3 ans" />
+          </div>
+          <div>
+            <label
+              htmlFor=""
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Job type
+            </label>
+            <ToggleButton label="Remote" />
+          </div>
+          <ButtonPrimary text="next" onClick={onNext} />
+        </form>
       </div>
     </>
   );
@@ -34,7 +115,7 @@ const Step2: React.FC<step2Props> = ({ onPrevious }) => {
     <>
       <div className="p-6">
         <h3 className="text-xl font-semibold text-gray-900">Post the Job</h3>
-        <ButtonPrimary text="Previous" onClick={onPrevious}/>
+        <ButtonPrimary text="Previous" onClick={onPrevious} />
       </div>
     </>
   );
