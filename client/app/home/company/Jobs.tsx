@@ -3,31 +3,66 @@ import React, { Children, FC, use, useEffect, useState } from "react";
 import ButtonPrimary from "@/app/components/ButtonPrimary";
 import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
-import { Transition,Dialog } from "@headlessui/react";
+import { Transition, Dialog } from "@headlessui/react";
 import { Suspense } from "react";
 
 interface modalProps {
-    isVisible : boolean ;
-    onClose : ()=>void;
-    children?:React.ReactNode;
+  isVisible: boolean;
+  onClose: () => void;
+  children?: React.ReactNode;
 }
-const Modal :React.FC<modalProps> = ({isVisible , onClose , children})=> {
-  if (!isVisible) return null ;
-  return ( 
-    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"> 
-      <div className="w-[600px] flex flex-col"> 
-        <button className="text-white text-xl place-self-end" onClick={onClose}>X</button>
-        <div className="bg-white p-2 rounded">  
-          {children}
-        </div>
+interface setp1Props {
+  onNext: () => void;
+}
+interface step2Props {
+  onPrevious: () => void;
+}
+const Step1: React.FC<setp1Props> = ({ onNext }) => {
+  return (
+    <>
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-5">
+          Publish a job
+        </h3>
+        <ButtonPrimary text="next" onClick={onNext}/>
+      </div>
+    </>
+  );
+};
+const Step2: React.FC<step2Props> = ({ onPrevious }) => {
+  return (
+    <>
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-gray-900">Post the Job</h3>
+        <ButtonPrimary text="Previous" onClick={onPrevious}/>
+      </div>
+    </>
+  );
+};
+const Modal: React.FC<modalProps> = ({ isVisible, onClose, children }) => {
+  if (!isVisible) return null;
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
+      <div className="w-[600px] flex flex-col">
+        <button className="text-white text-xl place-self-end" onClick={onClose}>
+          X
+        </button>
+        <div className="bg-white p-2 rounded">{children}</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  const handleNextStep = () => {
+    setStep(step + 1);
+  };
+  const handlePreviousStep = () => {
+    setStep(step - 1);
+  };
   function closeModal() {
     setIsOpen(false);
   }
@@ -67,7 +102,6 @@ const Jobs = () => {
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <ButtonPrimary onClick={openModal} text="Post a Job" />
           </div>
-          
         </div>
       </nav>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -99,7 +133,7 @@ const Jobs = () => {
             ></input>
           </div>
         </div>
-        
+
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -161,7 +195,10 @@ const Jobs = () => {
           </tbody>
         </table>
       </div>
-      <Modal isVisible={isOpen} onClose={closeModal}/>
+      <Modal isVisible={isOpen} onClose={closeModal}>
+        {step == 1 && <Step1 onNext={handleNextStep} />}
+        {step == 2 && <Step2 onPrevious={handlePreviousStep} />}
+      </Modal>
     </>
   );
 };
