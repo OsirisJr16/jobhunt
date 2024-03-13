@@ -1,28 +1,31 @@
 "use client";
-import React, { Children, FC, use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import ButtonPrimary from "@/app/components/ButtonPrimary";
 import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
+import Modal from "@/app/components/Modal";
 
-interface modalProps {
-  isVisible: boolean;
-  onClose: () => void;
-  children?: React.ReactNode;
-}
 interface setp1Props {
   onNext: () => void;
 }
 interface step2Props {
   onPrevious: () => void;
+  onSubmit: () => void;
 }
 interface toggleButton {
   label: string;
+  checked: boolean;
 }
-const ToggleButton: React.FC<toggleButton> = ({ label }) => {
+
+const exp = ["3 ans", "5 ans", "5 ans +"];
+const jobTypes = ["remote", "hybride", "Presential"];
+
+const ToggleButton: React.FC<toggleButton> = ({ label, checked }) => {
   return (
     <label className="flex items-center space-x-2 cursor-pointer">
       <span className="rounded-full border border-gray-300 px-3 py-1 text-sm">
         <input
+          checked={checked}
           type="checkbox"
           className="form-checkbox rounded-full text-blue-500 border-gray-300 focus:ring-blue-500"
         />{" "}
@@ -93,7 +96,11 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
             <label className="block text-sm font-medium leading-6 text-gray-900">
               Experiences
             </label>
-            <ToggleButton label="3 ans" />
+            <div className="flex flex-row">
+              <ToggleButton label="3 ans" checked={false} />
+              <ToggleButton label="5 ans" checked={false} />
+              <ToggleButton label="5 ans et plus" checked={false} />
+            </div>
           </div>
           <div>
             <label
@@ -102,7 +109,10 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
             >
               Job type
             </label>
-            <ToggleButton label="Remote" />
+            <div className="flex flex-row">
+              <ToggleButton label="Remote" checked={false} />
+              <ToggleButton label="Presential" checked={false} />
+            </div>
           </div>
           <ButtonPrimary text="next" onClick={onNext} />
         </form>
@@ -110,7 +120,7 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
     </>
   );
 };
-const Step2: React.FC<step2Props> = ({ onPrevious }) => {
+const Step2: React.FC<step2Props> = ({ onPrevious, onSubmit }) => {
   return (
     <>
       <div className="p-6">
@@ -118,19 +128,6 @@ const Step2: React.FC<step2Props> = ({ onPrevious }) => {
         <ButtonPrimary text="Previous" onClick={onPrevious} />
       </div>
     </>
-  );
-};
-const Modal: React.FC<modalProps> = ({ isVisible, onClose, children }) => {
-  if (!isVisible) return null;
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
-      <div className="w-[600px] flex flex-col">
-        <button className="text-white text-xl place-self-end" onClick={onClose}>
-          X
-        </button>
-        <div className="bg-white p-2 rounded">{children}</div>
-      </div>
-    </div>
   );
 };
 
@@ -278,7 +275,12 @@ const Jobs = () => {
       </div>
       <Modal isVisible={isOpen} onClose={closeModal}>
         {step == 1 && <Step1 onNext={handleNextStep} />}
-        {step == 2 && <Step2 onPrevious={handlePreviousStep} />}
+        {step == 2 && (
+          <Step2
+            onSubmit={() => console.log("Ok")}
+            onPrevious={handlePreviousStep}
+          />
+        )}
       </Modal>
     </>
   );
