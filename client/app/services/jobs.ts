@@ -12,7 +12,15 @@ const getJobsByCompany = async (companyId: number) => {
     throw err;
   }
 };
-
+const createNewJob = async (jobData: any) => {
+  try {
+    const response = await axios.post(jobsUrl, jobData);
+    return response.data;
+  } catch (err) {
+    console.error("Error creating new job:", err);
+    throw err;
+  }
+};
 const jobsService = {
   getJobsByCompany,
 };
