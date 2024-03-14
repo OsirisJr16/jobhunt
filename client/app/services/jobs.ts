@@ -23,6 +23,7 @@ const createNewJob = async (jobData: any) => {
 };
 const jobsService = {
   getJobsByCompany,
+  createNewJob
 };
 
 export default jobsService;

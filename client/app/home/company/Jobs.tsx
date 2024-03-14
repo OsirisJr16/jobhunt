@@ -4,7 +4,6 @@ import ButtonPrimary from "@/app/components/ButtonPrimary";
 import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
 import Modal from "@/app/components/Modal";
-
 interface setp1Props {
   onNext: () => void;
 }
@@ -12,20 +11,30 @@ interface step2Props {
   onPrevious: () => void;
   onSubmit: () => void;
 }
-interface toggleButton {
+interface ToggleButtonProps {
   label: string;
   checked: boolean;
+  onChange: (checked: boolean) => void;
 }
 
 const experiences = ["3 ans", "5 ans", "5 ans +"];
 const jobTypes = ["remote", "hybride", "Presential"];
 
-const ToggleButton: React.FC<toggleButton> = ({ label, checked }) => {
+const ToggleButton: React.FC<ToggleButtonProps> = ({
+  label,
+  checked,
+  onChange,
+}) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.checked);
+  };
+
   return (
     <label className="flex items-center space-x-2 cursor-pointer">
       <span className="rounded-full border border-gray-300 px-3 py-1 text-sm">
         <input
           checked={checked}
+          onChange={handleChange}
           type="checkbox"
           className="form-checkbox rounded-full text-blue-500 border-gray-300 focus:ring-blue-500"
         />{" "}
@@ -35,6 +44,25 @@ const ToggleButton: React.FC<toggleButton> = ({ label, checked }) => {
   );
 };
 const Step1: React.FC<setp1Props> = ({ onNext }) => {
+  const [experiencesChecked, setExperiencesChecked] = useState<boolean[]>(
+    Array(experiences.length).fill(false)
+  );
+  const [jobTypesChecked, setJobTypesChecked] = useState<boolean[]>(
+    Array(jobTypes.length).fill(false)
+  );
+
+  const handleExperienceChange = (index: number, checked: boolean) => {
+    const updatedExperiences = [...experiencesChecked];
+    updatedExperiences[index] = checked;
+    setExperiencesChecked(updatedExperiences);
+  };
+
+  const handleJobTypeChange = (index: number, checked: boolean) => {
+    const updatedJobTypes = [...jobTypesChecked];
+    updatedJobTypes[index] = checked;
+    setJobTypesChecked(updatedJobTypes);
+  };
+
   return (
     <>
       <div className="p-6">
@@ -97,10 +125,14 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
               Experiences
             </label>
             <div className="flex flex-row">
-              {experiences.map((exp)=>( 
-                <ToggleButton label={exp} checked={false}/>
-              ))
-              }
+              {experiences.map((exp, index) => (
+                <ToggleButton
+                  key={exp}
+                  label={exp}
+                  checked={experiencesChecked[index]}
+                  onChange={(checked) => handleExperienceChange(index, checked)}
+                />
+              ))}
             </div>
           </div>
           <div>
@@ -111,11 +143,14 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
               Job type
             </label>
             <div className="flex flex-row">
-              {
-                jobTypes.map((types)=> ( 
-                  <ToggleButton key={types} label={types} checked={false} />
-                ))
-              }
+              {jobTypes.map((type, index) => (
+                <ToggleButton
+                  key={type}
+                  label={type}
+                  checked={jobTypesChecked[index]}
+                  onChange={(checked) => handleJobTypeChange(index, checked)}
+                />
+              ))}
             </div>
           </div>
           <ButtonPrimary text="next" onClick={onNext} />
