@@ -17,7 +17,7 @@ interface toggleButton {
   checked: boolean;
 }
 
-const exp = ["3 ans", "5 ans", "5 ans +"];
+const experiences = ["3 ans", "5 ans", "5 ans +"];
 const jobTypes = ["remote", "hybride", "Presential"];
 
 const ToggleButton: React.FC<toggleButton> = ({ label, checked }) => {
@@ -97,9 +97,10 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
               Experiences
             </label>
             <div className="flex flex-row">
-              <ToggleButton label="3 ans" checked={false} />
-              <ToggleButton label="5 ans" checked={false} />
-              <ToggleButton label="5 ans et plus" checked={false} />
+              {experiences.map((exp)=>( 
+                <ToggleButton label={exp} checked={false}/>
+              ))
+              }
             </div>
           </div>
           <div>
@@ -110,8 +111,11 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
               Job type
             </label>
             <div className="flex flex-row">
-              <ToggleButton label="Remote" checked={false} />
-              <ToggleButton label="Presential" checked={false} />
+              {
+                jobTypes.map((types)=> ( 
+                  <ToggleButton key={types} label={types} checked={false} />
+                ))
+              }
             </div>
           </div>
           <ButtonPrimary text="next" onClick={onNext} />
