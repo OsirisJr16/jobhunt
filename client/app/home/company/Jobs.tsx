@@ -4,12 +4,22 @@ import ButtonPrimary from "@/app/components/ButtonPrimary";
 import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
 import Modal from "@/app/components/Modal";
+interface jobDataInterface {
+  title:string,
+  description:string,
+  requirement:"",
+  salary:number,
+  date_pos:Date,
+  CompanId:number |undefined
+}
 interface setp1Props {
   onNext: () => void;
+  setJobData : (data :any)=> void
 }
 interface step2Props {
   onPrevious: () => void;
   onSubmit: () => void;
+  jobData :any
 }
 interface ToggleButtonProps {
   label: string;
@@ -43,14 +53,27 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
     </label>
   );
 };
-const Step1: React.FC<setp1Props> = ({ onNext }) => {
+const Step1: React.FC<setp1Props> = ({ onNext,setJobData }) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    salary: 0,
+  });
+  const companyId = localStorage.getItem("userId")
+    ? parseInt(localStorage.getItem("userId") || "")
+    : undefined;
+  const date = Date.now();
+
   const [experiencesChecked, setExperiencesChecked] = useState<boolean[]>(
     Array(experiences.length).fill(false)
   );
   const [jobTypesChecked, setJobTypesChecked] = useState<boolean[]>(
     Array(jobTypes.length).fill(false)
   );
-
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
   const handleExperienceChange = (index: number, checked: boolean) => {
     const updatedExperiences = [...experiencesChecked];
     updatedExperiences[index] = checked;
@@ -62,6 +85,22 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
     updatedJobTypes[index] = checked;
     setJobTypesChecked(updatedJobTypes);
   };
+  const handleNext = () => {
+    const selectedRequirements = experiences
+      .filter((exp, index) => experiencesChecked[index])
+      .map((exp, index) => `${exp} - ${jobTypes[index]}`); 
+    
+    const jobData = {
+      title: formData.title,
+      description: formData.description,
+      requirements: selectedRequirements.join('-'),
+      salary: formData.salary,
+      date_post: date,
+      companyId:companyId
+    };
+    setJobData(jobData) ; 
+    onNext();
+};
 
   return (
     <>
@@ -78,11 +117,14 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
               Job Title
             </label>
             <input
+              name="title"
               type="text"
               id="job"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-inset focus:ring-indigo-600 block w-full p-2.5"
               placeholder="developer fullstack"
               required
+              value={formData.title}
+              onChange={handleInputChange}
             />
           </div>
           <div className="col-span-full">
@@ -95,11 +137,12 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
             <div className="mt-2">
               <textarea
                 id="about"
-                name="about"
+                name="description"
                 rows={3}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                defaultValue={""}
                 required
+                value={formData.description}
+                onChange={handleInputChange}
               />
             </div>
             <p className="mt-3 text-sm leading-6 text-gray-600">
@@ -116,8 +159,11 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
             <input
               type="number"
               id="salary"
+              name="salary"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-inset focus:ring-indigo-600 block w-full p-2.5"
               placeholder="4000$"
+              value={formData.salary}
+              onChange={handleInputChange}
             />
           </div>
           <div>
@@ -153,18 +199,25 @@ const Step1: React.FC<setp1Props> = ({ onNext }) => {
               ))}
             </div>
           </div>
-          <ButtonPrimary text="next" onClick={onNext} />
+          <ButtonPrimary text="next" onClick={() => handleNext()} />
         </form>
       </div>
     </>
   );
 };
-const Step2: React.FC<step2Props> = ({ onPrevious, onSubmit }) => {
+const Step2: React.FC<step2Props> = ({ onPrevious, onSubmit ,jobData}) => {
   return (
     <>
       <div className="p-6">
         <h3 className="text-xl font-semibold text-gray-900">Post the Job</h3>
-        <ButtonPrimary text="Previous" onClick={onPrevious} />
+        <div> 
+          <p>Title : <span>{jobData.title}</span></p>
+          <p>Description : <span>{jobData.description}</span></p>
+        </div>
+        <div className="flex flex-row">
+          <ButtonPrimary text="Previous" onClick={onPrevious} />
+          <ButtonPrimary text="Publish" onClick={onSubmit} />
+        </div>
       </div>
     </>
   );
@@ -174,6 +227,8 @@ const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState(1);
+  const [jobData, setJobData] = useState<jobDataInterface | null>(null);
+
   const handleNextStep = () => {
     setStep(step + 1);
   };
@@ -313,11 +368,12 @@ const Jobs = () => {
         </table>
       </div>
       <Modal isVisible={isOpen} onClose={closeModal}>
-        {step == 1 && <Step1 onNext={handleNextStep} />}
+        {step == 1 && <Step1 onNext={handleNextStep} setJobData={setJobData}/>}
         {step == 2 && (
           <Step2
             onSubmit={() => console.log("Ok")}
             onPrevious={handlePreviousStep}
+            jobData={jobData}
           />
         )}
       </Modal>
