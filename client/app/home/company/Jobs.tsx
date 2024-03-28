@@ -4,22 +4,23 @@ import ButtonPrimary from "@/app/components/ButtonPrimary";
 import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
 import Modal from "@/app/components/Modal";
+import valid from "@/app/validators/form.validators";
 interface jobDataInterface {
-  title:string,
-  description:string,
-  requirement:"",
-  salary:number,
-  date_pos:Date,
-  CompanId:number |undefined
+  title: string;
+  description: string;
+  requirement: "";
+  salary: number;
+  date_pos: Date;
+  CompanId: number | undefined;
 }
 interface setp1Props {
   onNext: () => void;
-  setJobData : (data :any)=> void
+  setJobData: (data: any) => void;
 }
 interface step2Props {
   onPrevious: () => void;
   onSubmit: () => void;
-  jobData :any
+  jobData: any;
 }
 interface ToggleButtonProps {
   label: string;
@@ -53,7 +54,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
     </label>
   );
 };
-const Step1: React.FC<setp1Props> = ({ onNext,setJobData }) => {
+const Step1: React.FC<setp1Props> = ({ onNext, setJobData }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -62,7 +63,7 @@ const Step1: React.FC<setp1Props> = ({ onNext,setJobData }) => {
   const companyId = localStorage.getItem("userId")
     ? parseInt(localStorage.getItem("userId") || "")
     : undefined;
-  const date = Date.now();
+  const date = new Date() ; 
 
   const [experiencesChecked, setExperiencesChecked] = useState<boolean[]>(
     Array(experiences.length).fill(false)
@@ -85,23 +86,29 @@ const Step1: React.FC<setp1Props> = ({ onNext,setJobData }) => {
     updatedJobTypes[index] = checked;
     setJobTypesChecked(updatedJobTypes);
   };
+  const isFormValid = () => {
+    return (
+      valid.textValidators(formData.title) &&
+      valid.textValidators(formData.description) &&
+      valid.numberValidators(formData.salary)
+    );
+  };
   const handleNext = () => {
     const selectedRequirements = experiences
       .filter((exp, index) => experiencesChecked[index])
-      .map((exp, index) => `${exp} - ${jobTypes[index]}`); 
-    
+      .map((exp, index) => `${exp} - ${jobTypes[index]}`);
+
     const jobData = {
       title: formData.title,
       description: formData.description,
-      requirements: selectedRequirements.join('-'),
+      requirements: selectedRequirements.join("-"),
       salary: formData.salary,
       date_post: date,
-      companyId:companyId
+      companyId: companyId,
     };
-    setJobData(jobData) ; 
+    setJobData(jobData);
     onNext();
-};
-
+  };
   return (
     <>
       <div className="p-6">
@@ -205,14 +212,28 @@ const Step1: React.FC<setp1Props> = ({ onNext,setJobData }) => {
     </>
   );
 };
-const Step2: React.FC<step2Props> = ({ onPrevious, onSubmit ,jobData}) => {
+const Step2: React.FC<step2Props> = ({ onPrevious, onSubmit, jobData }) => {
   return (
     <>
       <div className="p-6">
         <h3 className="text-xl font-semibold text-gray-900">Post the Job</h3>
-        <div> 
-          <p>Title : <span>{jobData.title}</span></p>
-          <p>Description : <span>{jobData.description}</span></p>
+        <div>
+          <p>
+            Title : <span>{jobData.title}</span>
+          </p>
+          <p>
+            Description : <span>{jobData.description}</span>
+          </p>
+        </div>
+        <div>
+          <p>
+            Requirements : <span>{jobData.requirements}</span>
+          </p>
+        </div>
+        <div>
+          <p>
+            Salary : <span>{jobData.salary}</span>
+          </p>
         </div>
         <div className="flex flex-row">
           <ButtonPrimary text="Previous" onClick={onPrevious} />
@@ -228,7 +249,13 @@ const Jobs = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [jobData, setJobData] = useState<jobDataInterface | null>(null);
-
+  const newJob = async ()=> {
+    try {
+      const response = await jobsService.createNewJob(jobData);
+    } catch(err) {
+      console.error("Error :", err)
+    }
+  }
   const handleNextStep = () => {
     setStep(step + 1);
   };
@@ -368,10 +395,10 @@ const Jobs = () => {
         </table>
       </div>
       <Modal isVisible={isOpen} onClose={closeModal}>
-        {step == 1 && <Step1 onNext={handleNextStep} setJobData={setJobData}/>}
+        {step == 1 && <Step1 onNext={handleNextStep} setJobData={setJobData} />}
         {step == 2 && (
           <Step2
-            onSubmit={() => console.log("Ok")}
+            onSubmit={newJob}
             onPrevious={handlePreviousStep}
             jobData={jobData}
           />
