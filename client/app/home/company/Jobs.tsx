@@ -5,6 +5,7 @@ import jobsService from "@/app/services/jobs";
 import { Job } from "@/app/interface/jobs.interface";
 import Modal from "@/app/components/Modal";
 import valid from "@/app/validators/form.validators";
+import { useRouter } from "next/navigation";
 interface jobDataInterface {
   title: string;
   description: string;
@@ -249,9 +250,15 @@ const Jobs = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [jobData, setJobData] = useState<jobDataInterface | null>(null);
+  const router = useRouter()
+  const refreshPage =()=> {
+    router.refresh() ; 
+  }
   const newJob = async ()=> {
     try {
       const response = await jobsService.createNewJob(jobData);
+      closeModal() ; 
+      refreshPage() ; 
     } catch(err) {
       console.error("Error :", err)
     }
